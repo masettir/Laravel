@@ -81,12 +81,9 @@ else
 								else
 									dbName=$Extdbname
 								fi	
-								if [ "$LARAVEL" == "dev-develop" ] || [ "$LARAVEL" == "dev" ] || [ "$LARAVEL" == "5.0.*" ]
-								then 
-									declare -a laravelDBs=( "$laravelDir/config/database.php" "$laravelDir/app/config/local/database.php" )
-								else
-									declare -a laravelDBs=( "$laravelDir/app/config/database.php" "$laravelDir/app/config/local/database.php" )
-								fi	
+								
+								declare -a laravelDBs=$( find $laravelDir -name 'database.php' )
+
 								for laravelDB in $laravelDBs
 								do
 									larCon "'port'" $Port $laravelDB 
