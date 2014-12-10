@@ -1,19 +1,19 @@
 Laravel
 =======
 
-Laravel set up in a CentOS docker contiainer
+Laravel set up in a CentOS docker contiainor
 
-The Laravel container is set up to be linked to a sql ( Mysql, MariDB, SQlite, etc.. ) database container. If the database has an environment variable set for "DBNAME" Laravel will use that name allong with the connection variables from the database container to automatically set the connection parameters in Laravel's database.php configuration file.
+The Laravel containor is set up to be linked to a sql ( Mysql, MariDB, SQlite, etc.. ) database containor. If the database has an environment variable set for "DBNAME" Laravel will use that name allong with the connection variables from the database containor to automatically set the connection parameters in Laravel's database.php configuration file.
 
-Laravel will search its /var/www directory ( which can be connected to a volume or host directory outside the container ) for a directory called laravel, in this directory it looks for any directory containing a ".proj" extension, if found, the laravel container will recognize this directory as an existing laravel project and use it to set up the project. If nothing is found in the laravel directory it will create and install a new laravel project in all directories found within the laravel directory, and name those projects after thier parent directories. 
+Laravel will search its /var/www directory ( which can be connected to a volume or host directory outside the containor ) for a directory called laravel, in this directory it looks for any directory containing a ".proj" extension, if found, the laravel containor will recognize this directory as an existing laravel project and use it to set up the project. If nothing is found in the laravel directory it will create and install a new laravel project in all directories found within the laravel directory, and name those projects after thier parent directories. 
 
 For example, if you have a laravel directory and create an empty directory called 'myproject' inside of it, when you start the laravel container, laravel will create a laravel project in 'myproject' called 'myproject.proj', so the file structure would be:
 
 var/www/path/to/laravel/myproject/myproject.proj
 
-This way if you have multiple projects you can hold them in a directory or directories called laravel anywhere in the volume or mounted directory and the laravel docker container will find and install or set up the projects found in that directory.
+This way if you have multiple projects you can hold them in a directory or directories called laravel anywhere in the volume or mounted directory and the laravel docker containor will find and install or set up the projects found in that directory.
 
-The laravel container will also run Artisan commands that can be stringed together with the '-e' or '--env' tags in the Docker RUN command. 
+The laravel containor will also run Artisan commands that can be stringed together with the '-e' or '--env' tags in the Docker RUN command. 
 
 example:                                           
 Docker RUN -e INSTALL_LARAVEL=4.2.* repo/name:tag  
@@ -26,7 +26,7 @@ will install whatever laravel version you specify on the right side of the envir
 
 'CONNECT'
 --------
-will cause laravel to find and automatically set the database connections for laravel based on the connection variables of a linked database container. The 'CONNECT' variable can be set to anything, Laravel must however be linked to a database container for the connection variables to be set by the laravel container.
+will cause laravel to find and automatically set the database connections for laravel based on the connection variables of a linked database containor. The 'CONNECT' variable can be set to anything, Laravel must however be linked to a database containor for the connection variables to be set by the laravel containor.
 
 examples:
 'CONNECT=yes',
@@ -82,7 +82,7 @@ All of these commands can be stringed together for fluid set up and editing of y
 
 docker run -d -v /web/root:/var/www -e INSTALL_LARAVEL=4.2.* -e CREATE=yes -e MIGRATE=all -e SEED=yes --link db:laravel repo/name:tag
 
-then the docker container would find the install directory for laravel, install laravel 4, create a migrations table in the database it has been linked to, run all migrations and then seed the database.
+then the docker containor would find the install directory for laravel, install laravel 4, create a migrations table in the database it has been linked to, run all migrations and then seed the database.
 
 then later, if lets say you need to reset the autoload tables and refresh the database, and you have new data to add/seed into your database, but you dont need to install laravel, or whatever else, then you can run the container again with the necessary commands. 
 
@@ -91,4 +91,4 @@ docker run -d -v /web/root:/var/www -e DUMP=yup -e REFRESH=anything -e SEED=yes 
 
 would do the trick.
 
-Thats pretty much it for the laravel container, I hope it proves useful and easy to use.
+Thats pretty much it for the laravel containor, I hope it proves useful and easy to use.
