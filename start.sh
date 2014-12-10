@@ -28,6 +28,14 @@ Name=$(env | egrep 'ADDR' | egrep -o '^[^_]+' | grep -v -E '(HOSTNAME=|TERM|PWD|
 # find the laravel directory
 laravelDir=$( find /var/www -name 'laravel' | grep -v 'vendor' )
 
+# set the migration path
+if [ -z $MIGRATION_PATH ]
+then
+	migrationDir=$( find $laravelDir -name 'migrations' );
+else
+	migrationDir=$MIGRATION_PATH
+fi	
+
 if [ -z "$laravelDir" ]
 then
 	echo '  - No Laravel directory found'
@@ -123,19 +131,19 @@ else
    					
 						if [ ! -z "$DUMP" ]
 						then
-							echo -n ' - Dumping composer autoload...' && \
+							echo -n ' - Dumping composer autoload...\n' && \
 							cd $projDir && composer dump-autoload && echo ' success' || echo ' failed'
 						fi
 						
 						if [ ! -z "$RESET" ]
 						then
-							echo "  - resetting migrations in $projDir" && \
+							echo -e "  - Resetting migrations in $projDir...\n" && \
 							cd $projDir && php artisan migrate:reset
 						fi
 				
 						if [ ! -z "$REFRESH" ]
 						then
-							echo "  - Refreshing migrations in $proDir" && \
+							echo "  - Refreshing migrations in $proDir...\n" && \
 							cd $projDir && php artisan migrate:refresh -y
 						fi
 					fi
@@ -148,10 +156,10 @@ else
 						echo "|                      Migration table creation                         |"
 						echo " -----------------------------------------------------------------------"
 						echo " "
-						echo '  - Installing migrations' && \
+						echo -e '  - Installing migrations...\n' && \
 						cd $projDir && php artisan migrate:install
-					fi						
-								
+					fi
+					 
 					# check whether a file or folder has been specified for migration
 					if [ ! -z "$MIGRATE" ]
 					then
@@ -162,11 +170,11 @@ else
 						echo " "
 						if [ "$MIGRATE" == "all" ] || [ "$MIGRATE" == "*" ]
 						then
-							echo '  - running migrations' && \
+							echo -e '  - running migrations...\n' && \
 							# run migrations on whole migrations directory if there is no file specified
 							cd $projDir && php artisan migrate 
 						else	
-							echo "  - running migrations from $migrationDir/$RUN" && \
+							echo -e "  - running migrations from $migrationDir/$RUN...\n" && \
 							# run migrations on specified file
 							cd $projDir && php artisan migrate --path=$migrationDir/$MIGRATE
 						fi	
@@ -181,10 +189,10 @@ else
 						echo " "
 						if [ -z "$MIGRATION_PATH" ]
 						then
-							echo " - creating migration file called $MAKE" && \
+							echo -e " - creating migration file called $MAKE...\n" && \
 							cd $projDir && php artisan migrate:make "$MAKE"
 						else
-							echo "  - creating migration file called $MAKE in $MIGRATION_PATH" && \
+							echo -e "  - creating migration file called $MAKE in $MIGRATION_PATH...\n" && \
 							cd $projDir && php artisan migrate:make "$MAKE" --path="$MIGRATION_PATH"
 						fi	
 					fi
@@ -196,7 +204,7 @@ else
 						echo "|                              Seeding                                  |"
 						echo " -----------------------------------------------------------------------"
 						echo " "
-						echo '  - seeding database' && \
+						echo -e "  - seeding database...\n" && \
 						cd $projDir && php artisan db:seed
 					fi
 				done

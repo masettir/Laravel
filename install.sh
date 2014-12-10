@@ -6,11 +6,10 @@ echo "|                              Install                                  |"
 echo " -----------------------------------------------------------------------"
 echo " "
 
-	
+# find the laravel directory in /var/www
 installDir=$( find /var/www -name 'laravel' | grep -v 'vendor' )
-	
-# | sed -e "s/\/composer.json//" | grep 'laravel' | grep -v ".proj" | grep -v 'vendor' )
 
+# install laravel in each directory found in the laravel directory, 
 for Dir in $( ls "$installDir" )
 do
 	laravelDir="$installDir/$Dir"
